@@ -10,9 +10,9 @@ from config import Config
 
 db = SQLAlchemy()
 migrate = Migrate()
-# login = LoginManager()
-# login.login_view = 'auth.login'
-# login.login_message = 'Please Login to access this page.'
+login = LoginManager()
+login.login_view = 'auth.login'
+login.login_message = 'Please Login to access this page.'
 bootstrap = Bootstrap()
 moment = Moment()
 
@@ -29,6 +29,9 @@ def create_app(config_class=Config):
 
     from app.main import bp as main_bp
     app.register_blueprint(main_bp)
+
+    from app.auth import bp as auth_bp
+    app.register_blueprint(auth_bp, url_prefix='/auth')
 
     if not os.path.exists('logs'):
         os.mkdir('logs')

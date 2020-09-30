@@ -37,4 +37,5 @@ nosetests.xml
 
 dun_un_venv
 app.db
+testing.db
 dungeons.log*

@@ -9,26 +9,31 @@
 {% endblock %}
 
 {% block navbar %}
-<div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
-  <h5 class="my-0 mr-md-auto font-weight-normal">Dungeons Unlimited</h5>
-  <!-- Insert Login Verification Here -->
-  <!-- <nav class="my-2 my-md-0 mr-md-3">
-    <a class="p-2 text-dark" href="#">Features</a>
-    <a class="p-2 text-dark" href="#">Enterprise</a>
-    <a class="p-2 text-dark" href="#">Support</a>
-    <a class="p-2 text-dark" href="#">Pricing</a>
-  </nav> -->
-  <a class="p-2 text-dark" href="{{ url_for('main.index') }}">Home</a>
-  <a class="btn btn-outline-primary" href="{{ url_for('auth.login') }}">Login/Sign Up</a>
-</div>
+
+  {% if current_user.is_authenticated %}
+    <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
+      <h5 class="my-0 mr-md-auto font-weight-normal">Dungeons Unlimited</h5>
+      <!-- Insert Login Verification Here -->
+      <!-- <nav class="my-2 my-md-0 mr-md-3">
+        <a class="p-2 text-dark" href="#">Features</a>
+        <a class="p-2 text-dark" href="#">Enterprise</a>
+        <a class="p-2 text-dark" href="#">Support</a>
+        <a class="p-2 text-dark" href="#">Pricing</a>
+      </nav> -->
+      <a class="p-2 text-dark" href="{{ url_for('main.index') }}">Home</a>
+      <a class="btn btn-outline-primary" href="{{ url_for('auth.logout') }}">Logout</a>
+    </div>
+  {% endif%}
 {% endblock %}
 
 {% block content %}
 
   <div class="container-fluid">
     {% block app_content %}{% endblock %}
-    {% block footer %}
-      {% include '_footer_template.html'%}
-    {% endblock %}
+    {% if current_user.is_authenticated %}
+      {% block footer %}
+        {% include '_footer_template.html'%}
+      {% endblock %}
+    {% endif%}
   </div>
 {% endblock%}

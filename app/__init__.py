@@ -7,6 +7,7 @@ from flask_login import LoginManager
 from flask_bootstrap import Bootstrap
 from flask_moment import Moment
 from config import Config
+from flask_cors import CORS
 
 db = SQLAlchemy()
 migrate = Migrate()
@@ -23,9 +24,10 @@ def create_app(config_class=Config):
 
     db.init_app(app)
     migrate.init_app(app,db)
-    # login.init_app(app)
+    login.init_app(app)
     bootstrap.init_app(app)
     moment.init_app(app)
+    CORS(app)
 
     from app.main import bp as main_bp
     app.register_blueprint(main_bp)

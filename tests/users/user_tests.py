@@ -15,8 +15,8 @@ class UserTests(unittest.TestCase):
         self.app = create_app(TestConfig)
         self.app_context = self.app.app_context()
         self.app_context.push()
+        self.user_utility = UserTestUtility(db)
         db.create_all()
-
 
     def tearDown(self):
         db.session.remove()
@@ -34,11 +34,31 @@ class UserTests(unittest.TestCase):
 
         test_username='testington'
 
-        user_utility = UserTestUtility(db)
-        user_utility.create_user(test_username)
+        self.user_utility.create_user(test_username)
 
         test_user = User.query.filter_by(username='bobFord').first()
         self.assertIsNone(test_user)
 
         actual_user = User.query.filter_by(username=test_username).first()
         self.assertIsNotNone(actual_user)
+
+    def test_campaign_creation(self):
+
+        test_campaignname = "test slayer 3"
+        self.user_utility.create_campaign(test_campaignname)
+
+        test_camp = Campaigns.query.filter_by(campaign_name='a campaign').first()
+
+        self.assertIsNone(test_camp)
+
+        actual_camp = Campaigns.query.filter_by(campaign_name=test_campaignname).first()
+        self.assertIsNotNone(actual_camp)
+
+    def test_user_in_campaign(self):
+
+        user = self.user_utility.create_user('Campaign Master')
+        campaign = self.user_utility.create_campaign('Trials of the Demon King')
+
+        self.user_utility.add_user_to_campaign(user, campaign)
+
+        self.assertTrue(user.campaigns.count() > 0)

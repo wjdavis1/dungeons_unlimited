@@ -3,7 +3,7 @@ from werkzeug.urls import url_parse
 from flask_login import login_user, logout_user, current_user
 from app import db
 from app.auth import bp
-from app.auth.forms import LoginForm
+from app.auth.forms import LoginForm, RegistrationForm
 from app.models.auth.user import User
 
 @bp.route('/login', methods=['GET', 'POST'])
@@ -27,3 +27,19 @@ def login():
 def logout():
     logout_user()
     return redirect(url_for('auth.login'))
+
+@bp.route('/register', methods=['GET', 'POST'])
+def register():
+    if current_user.is_authenticated:
+        return redirect(url_for('main.index'))
+    form = RegistrationForm()
+    if form.validate_on_submit():
+        user = User(username=form.username.data,
+            email=form.email.data, first_name=form.first_name.data,
+            last_name=form.last_name.data)
+        user.set_password(form.password.data)
+        db.session.add(user)
+        db.session.commit()
+        flash('Congrats, you are now registered')
+        return redirect(url_for('auth.login'))
+    return render_template('registration.html', title='Register', form=form)

@@ -6,6 +6,7 @@ from app.auth import bp
 from app.auth.forms import LoginForm, RegistrationForm
 from app.models.auth.user import User
 
+
 @bp.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
@@ -14,7 +15,8 @@ def login():
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
         if user is None and not user.check_password(form.password.data):
-            flash('Invalid Login Information, Please Verify Your Input and Try Again!')
+            flash('''Invalid Login Information,
+                Please Verify Your Input and Try Again!''')
             return redirect(url_for('auth.login'))
         login_user(user, remember=form.remember_me.data)
         next_page = request.args.get('next')
@@ -23,10 +25,12 @@ def login():
         return redirect(next_page)
     return render_template('login.html', title='Sign In', form=form)
 
+
 @bp.route('/logout')
 def logout():
     logout_user()
     return redirect(url_for('auth.login'))
+
 
 @bp.route('/register', methods=['GET', 'POST'])
 def register():
@@ -35,11 +39,16 @@ def register():
     form = RegistrationForm()
     if form.validate_on_submit():
         user = User(username=form.username.data,
-            email=form.email.data, first_name=form.first_name.data,
-            last_name=form.last_name.data)
+                    email=form.email.data,
+                    first_name=form.first_name.data,
+                    last_name=form.last_name.data)
         user.set_password(form.password.data)
         db.session.add(user)
         db.session.commit()
         flash('Congrats, you are now registered')
         return redirect(url_for('auth.login'))
+    if len(form.errors.items()) > 0:
+        for field_name, error_message in form.errors.items():
+            print('{} : {}'.format(field_name, error_message))
+            flash('{}'.format(error_message))
     return render_template('registration.html', title='Register', form=form)

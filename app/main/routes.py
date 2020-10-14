@@ -11,6 +11,7 @@ def before_request():
         current_user.last_login = datetime.utcnow()
         db.session.commit()
 
+
 @bp.route('/')
 def index():
     if current_user.is_authenticated:

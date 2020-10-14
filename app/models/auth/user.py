@@ -1,13 +1,16 @@
-from app import db,login
+from app import db, login
 from datetime import datetime
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
+
 
 @login.user_loader
 def load_user(id):
     return User.query.get(int(id))
 
-user_campaigns = db.Table('user_campaigns',
+
+user_campaigns = db.Table(
+    'user_campaigns',
     db.Column('user_id', db.Integer, db.ForeignKey('user.id')),
     db.Column('campaign_id', db.Integer, db.ForeignKey('campaigns.id')))
 
@@ -20,7 +23,8 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(120), index=True, unique=True)
     last_login = db.Column(db.DateTime, default=datetime.utcnow)
     password_hash = db.Column(db.String(128))
-    campaigns = db.relationship('Campaigns',
+    campaigns = db.relationship(
+        'Campaigns',
         secondary=user_campaigns,
         backref='users', lazy='dynamic')
 
@@ -28,7 +32,7 @@ class User(UserMixin, db.Model):
         return '<User {}>'.format(self.username)
 
     def set_password(self, password):
-        self.password_hash = generate_password_hash(password,'sha256',8)
+        self.password_hash = generate_password_hash(password, 'sha256', 8)
 
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)

@@ -3,6 +3,7 @@ from app import db, login
 from datetime import datetime
 from flask import current_app
 from flask_login import UserMixin
+from hashlib import md5
 from time import time
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -39,6 +40,10 @@ class User(UserMixin, db.Model):
 
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
+
+    def profile_image(self, size):
+        digest = md5(self.email.lower().encode('utf-8')).hexdigest()
+        return 'https://www.gravatar.com/avatar/{}?d=identicon&s={}'.format(digest, size)
 
     def add_to_campaign(self, campaign):
         if not self.is_in_campaign(campaign):

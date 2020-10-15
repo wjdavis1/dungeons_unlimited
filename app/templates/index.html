@@ -1,16 +1,33 @@
 {% extends 'base.html'%}
 
 {% block app_content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
+<div class="container">
 
-<div class="jumbotron">
   <div class="container">
-    <h1 class="display-4">Dungeons Unlimited</h1>
-    <p>
-      Your alternative solution for Dungeons & Dragons&#174; game play!<br>
-      Experience your campaigns in a whole new way!
-    </p>
-    <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a></p>
+      <div class="card-deck">
+        <div class="card col-6 col-md-4">
+          <img class="card-img" src="{{ user.profile_image(32) }}" alt="User Profile">
+        </div>
+        <div class="card p-3 col-12 col-md-8">
+            <div class="card-body">
+              {% if user.first_name is not none or user.last_name is not none %}
+                <h3 class="card-title">{{ user.first_name}} {{ user.last_name}}</h3>
+              {% else %}
+                <h3 class="card-title">{{ user.username}}</h3>
+              {% endif %}
+              <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</p>
+              <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+            </div>
+        </div>
+      </div>
   </div>
+  <br>
+  <h2>Characters</h2>
+  {% include '_characters.html' %}
+  <br>
+  <h2>Campaigns</h2>
+  {% include '_campaigns.html'%}
+
 </div>
-{% include '_about_tiles.html' %}
 {% endblock%}

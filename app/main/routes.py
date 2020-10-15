@@ -15,5 +15,5 @@ def before_request():
 @bp.route('/')
 def index():
     if current_user.is_authenticated:
-        return render_template('index.html')
+        return render_template('index.html', user=current_user)
     return redirect(url_for('auth.login'))

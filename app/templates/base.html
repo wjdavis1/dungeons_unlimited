@@ -15,21 +15,21 @@
       <h5 class="my-0 mr-md-auto font-weight-normal">Welcome Back, {{ current_user.username }}!</h5>
       <a class="nav-link" href="#">Characters</a>
       <a class="nav-link" href="#">Campaigns</a>
+      <a class="nav-link" href="#">Settings</a>
       <a class="nav-link" href="{{ url_for('auth.logout') }}">Logout</a>
     </div>
   {% endif%}
 {% endblock %}
 
 {% block content %}
-
+  {% with messages = get_flashed_messages() %}
+  {% if messages %}
+      {% for message in messages %}
+      <div class="alert alert-info" role="alert">{{ message }}</div>
+      {% endfor %}
+  {% endif %}
+  {% endwith %}
   <div class="container-fluid">
-    {% with messages = get_flashed_messages() %}
-    {% if messages %}
-        {% for message in messages %}
-        <div class="alert alert-info" role="alert">{{ message }}</div>
-        {% endfor %}
-    {% endif %}
-    {% endwith %}
     {% block app_content %}{% endblock %}
     {% if current_user.is_authenticated %}
       {% block footer %}

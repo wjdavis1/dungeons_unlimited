@@ -12,7 +12,7 @@
 
   {% if current_user.is_authenticated %}
     <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
-      <h5 class="my-0 mr-md-auto font-weight-normal">Welcome Back, {{ current_user.username }}!</h5>
+      <h5 class="my-0 mr-md-auto font-weight-normal">Dungeons Unlimited</h5>
       <a class="nav-link" href="#">Characters</a>
       <a class="nav-link" href="#">Campaigns</a>
       <a class="nav-link" href="#">Settings</a>
@@ -22,14 +22,14 @@
 {% endblock %}
 
 {% block content %}
-  {% with messages = get_flashed_messages() %}
-  {% if messages %}
-      {% for message in messages %}
-      <div class="alert alert-info" role="alert">{{ message }}</div>
-      {% endfor %}
-  {% endif %}
-  {% endwith %}
   <div class="container-fluid">
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-info" role="alert">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+    {% endwith %}
     {% block app_content %}{% endblock %}
     {% if current_user.is_authenticated %}
       {% block footer %}
@@ -37,5 +37,9 @@
       {% endblock %}
     {% endif%}
   </div>
-
 {% endblock%}
+
+{% block scripts %}
+  {{ super() }}
+  {{ moment.include_moment() }}
+{% endblock %}

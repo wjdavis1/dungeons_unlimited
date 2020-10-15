@@ -3,23 +3,44 @@
 {% block app_content %}
 <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
 <div class="container">
-
+<!--
   <div class="container">
+    <div class="media">
+      <img class="mr-3" src="..." alt="Generic placeholder image">
+      <div class="media-body">
+        <h5 class="mt-0">Media heading</h5>
+        Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+      </div>
+    </div>
       <div class="card-deck">
         <div class="card col-6 col-md-4">
           <img class="card-img" src="{{ user.profile_image(32) }}" alt="User Profile">
         </div>
         <div class="card p-3 col-12 col-md-8">
             <div class="card-body">
-              {% if user.first_name is not none or user.last_name is not none %}
-                <h3 class="card-title">{{ user.first_name}} {{ user.last_name}}</h3>
-              {% else %}
-                <h3 class="card-title">{{ user.username}}</h3>
-              {% endif %}
-              <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</p>
-              <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+              <h3 class="card-title">{{ user.username}}</h3>
+              <br>
+              <p class="card-text">First Name: {{ user.first_name}}</p>
+              <p class="card-text">Last Name: {{user.last_name }}</p>
+              <p class="card-text">Email: {{ user.email}}</p>
+              <br>
+              <p class="card-text"><small class="text-muted">Last Signed In: {{ moment(user.last_login).format('LLL') }}</small></p>
             </div>
         </div>
+      </div>
+  </div> -->
+  <div class="container row">
+      <div class="col-6 col-md-4">
+        <img src="{{ user.profile_image(256) }}" class="rounded float-let mr-3" alt="User Profile Image">
+      </div>
+      <div class="col-12 col-md-8">
+        <h3>Hello, {{ user.username }}!</h3>
+        <br>
+        <p>First Name: {{ user.first_name}}</p>
+        <p>Last Name: {{user.last_name }}</p>
+        <p>Email: {{ user.email}}</p>
+        <br>
+        <p><small class="text-muted">Last Signed In: {{ moment(user.last_login).format('LLL') }}</small></p>
       </div>
   </div>
   <br>

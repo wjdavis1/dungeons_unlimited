@@ -31,6 +31,11 @@ class User(UserMixin, db.Model):
         'Campaigns',
         secondary=user_campaigns,
         backref='users', lazy='dynamic')
+    characters = db.relationship(
+        'Character',
+        backref='user',
+        lazy='dynamic'
+    )
 
     def __repr__(self):
         return '<User {}>'.format(self.username)
@@ -86,3 +91,12 @@ class Campaigns(db.Model):
 
     def __repr__(self):
         return '<Campaign {}>'.format(self.campaign_name)
+
+
+class Character(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    character_name = db.Column(db.String(64), index=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+
+    def __repr__(self):
+        return '<Character {}>'.format(self.character_name)

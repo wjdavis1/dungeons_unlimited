@@ -15,7 +15,13 @@
       <h5 class="my-0 mr-md-auto font-weight-normal">Dungeons Unlimited</h5>
       <a class="nav-link" href="#">Characters</a>
       <a class="nav-link" href="#">Campaigns</a>
-      <a class="nav-link" href="#">Settings</a>
+      <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Settings
+      </a>
+      <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+        <a class="dropdown-item" href="#">Edit Profile</a>
+        <a class="dropdown-item" href="#">Reset Password</a>
+      </div>
       <a class="nav-link" href="{{ url_for('auth.logout') }}">Logout</a>
     </div>
   {% endif%}

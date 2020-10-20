@@ -27,3 +27,13 @@ def send_email(subject, sender, recipients, text_body, html_body, attachments=No
             args=(
                 current_app._get_current_object(),
                 msg)).start()
+
+
+# Profile image utility
+
+def image_file_picker(image):
+    pass
+
+
+def image_to_byte(image):
+    pass

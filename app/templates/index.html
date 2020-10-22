@@ -6,10 +6,10 @@
   <div class="container row mx-auto d-block">
     <h2 class="text-center">Welcome Back, {{ user.username }}!</h2>
     <!-- <img src="{{ user.profile_image(256) }}" class="rounded-circle mx-auto d-block" alt="User Profile Image"> -->
-    {% if user.profile_image(0)|length > 0 or user.profile_image(0) is none %}
-      <img src="data:image/jpg;base64,{{ user.profile_image(0) }}" class="rounded-circle mx-auto d-block" alt="User Profile Image">
-    {% else %}
+    {% if user.profile_picture is none or user.profile_picture|length == 0 %}
       <img src="{{ user.profile_image(256) }}" class="rounded-circle mx-auto d-block" alt="User Profile Image">
+    {% else %}
+      <img src="data:image/jpg;base64,{{ user.profile_image(0) }}" class="rounded-circle mx-auto d-block" alt="User Profile Image">
     {% endif %}
     <hr>
       <!-- <div class="col-12 col-md-8">

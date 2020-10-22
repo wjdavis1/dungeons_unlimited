@@ -1,14 +1,19 @@
 import unittest
 import os
-from config import Config, basedir
+import base64
+from config import Config
 from app import create_app, db
 from app.models.auth.user import User, Campaigns
 from tests.users.user_util import UserTestUtility
 
+dir_path = os.path.dirname(os.path.realpath(__file__))
+image_path = os.path.join(dir_path, '../test_resources/image.jpeg')
 
 class TestConfig(Config):
     TESTING = True
     SQLALCHEMY_DATABASE_URI = 'sqlite://'
+
+
 class UserTests(unittest.TestCase):
 
     def setUp(self):
@@ -32,7 +37,7 @@ class UserTests(unittest.TestCase):
 
     def test_user_creation(self):
 
-        test_username='testington'
+        test_username = 'testington'
 
         self.user_utility.create_user(test_username)
 
@@ -55,10 +60,14 @@ class UserTests(unittest.TestCase):
         self.assertIsNotNone(actual_camp)
 
     def test_user_in_campaign(self):
-
         user = self.user_utility.create_user('Campaign Master')
         campaign = self.user_utility.create_campaign('Trials of the Demon King')
 
         self.user_utility.add_user_to_campaign(user, campaign)
 
         self.assertTrue(user.campaigns.count() > 0)
+
+    def test_import_user_profile_image(self):
+        with open(image_path, 'rb') as image:
+            encode_image = base64.b64encode(image.read())
+            self.assertIsNotNone(encode_image)

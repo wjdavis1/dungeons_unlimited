@@ -6,6 +6,7 @@ from flask_login import UserMixin
 from hashlib import md5
 from time import time
 from werkzeug.security import generate_password_hash, check_password_hash
+from app.utilities import image_to_string
 
 
 @login.user_loader
@@ -27,6 +28,7 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(120), index=True, unique=True)
     last_login = db.Column(db.DateTime, default=datetime.utcnow)
     password_hash = db.Column(db.String(128))
+    profile_picture = db.Column(db.Text)
     campaigns = db.relationship(
         'Campaigns',
         secondary=user_campaigns,
@@ -47,8 +49,10 @@ class User(UserMixin, db.Model):
         return check_password_hash(self.password_hash, password)
 
     def profile_image(self, size):
-        digest = md5(self.email.lower().encode('utf-8')).hexdigest()
-        return 'https://www.gravatar.com/avatar/{}?d=identicon&s={}'.format(digest, size)
+        if self.profile_picture is None or len(self.profile_picture) == 0:
+            digest = md5(self.email.lower().encode('utf-8')).hexdigest()
+            return 'https://www.gravatar.com/avatar/{}?d=identicon&s={}'.format(digest, size)
+        return self.profile_picture
 
     def add_to_campaign(self, campaign):
         if not self.is_in_campaign(campaign):

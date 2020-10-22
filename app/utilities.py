@@ -1,5 +1,7 @@
+import base64
+import os
 from threading import Thread
-from flask import current_app
+from flask import current_app, url_for
 from flask_mail import Message
 from app import mail
 
@@ -35,5 +37,9 @@ def image_file_picker(image):
     pass
 
 
-def image_to_byte(image):
+def image_to_string():
+    pass
+
+
+def byte_to_image(byte):
     pass

@@ -3,11 +3,15 @@
 {% block app_content %}
 <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
 <div class="container">
-  <div class="container row">
-      <div class="mx-auto d-block">
-        <h2 class="text-center">Welcome Back, {{ user.username }}!</h2>
-        <img src="{{ user.profile_image(256) }}" class="rounded-circle" alt="User Profile Image">
-      </div>
+  <div class="container row mx-auto d-block">
+    <h2 class="text-center">Welcome Back, {{ user.username }}!</h2>
+    <!-- <img src="{{ user.profile_image(256) }}" class="rounded-circle mx-auto d-block" alt="User Profile Image"> -->
+    {% if user.profile_image(0)|length > 0 or user.profile_image(0) is none %}
+      <img src="data:image/jpg;base64,{{ user.profile_image(0) }}" class="rounded-circle mx-auto d-block" alt="User Profile Image">
+    {% else %}
+      <img src="{{ user.profile_image(256) }}" class="rounded-circle mx-auto d-block" alt="User Profile Image">
+    {% endif %}
+    <hr>
       <!-- <div class="col-12 col-md-8">
         <h3>Hello, {{ user.username }}!</h3>
         <br>
@@ -21,6 +25,7 @@
   <br>
   <h2>Characters</h2>
   {% include '_characters.html' %}
+  <hr>
   <br>
   <h2>Campaigns</h2>
   {% include '_campaigns.html'%}

@@ -12,14 +12,14 @@
 
   {% if current_user.is_authenticated %}
     <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
-      <h5 class="my-0 mr-md-auto font-weight-normal">Dungeons Unlimited</h5>
+      <h5 class="my-0 mr-md-auto font-weight-normal"><a href="{{ url_for('main.index') }}">Dungeons Unlimited</a></h5>
       <a class="nav-link" href="#">Characters</a>
       <a class="nav-link" href="#">Campaigns</a>
       <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         Settings
       </a>
       <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-        <a class="dropdown-item" href="#">Edit Profile</a>
+        <a class="dropdown-item" href="{{ url_for('auth.edit_profile') }}">Edit Profile</a>
         <a class="dropdown-item" href="#">Reset Password</a>
       </div>
       <a class="nav-link" href="{{ url_for('auth.logout') }}">Logout</a>

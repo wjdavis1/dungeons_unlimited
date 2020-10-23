@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, TextAreaField
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo
 from app.models.auth.user import User
 
@@ -35,6 +35,8 @@ class RegistrationForm(FlaskForm):
             raise ValidationError('''Email is already registered,
                 please reset your password here''')
 
+# Password Reset Forms
+
 
 class PasswordResetForm(FlaskForm):
     password = PasswordField('Password', validators=[DataRequired()])
@@ -46,3 +48,12 @@ class PasswordResetForm(FlaskForm):
 class PasswordResetRequestForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
     submit = SubmitField('Reset Password')
+
+
+class EditProfileForm(FlaskForm):
+    first_name = StringField('First Name')
+    last_name = StringField('last Name')
+    email = StringField('Email', validators=[Email()])
+    about_me = TextAreaField('Tell Us Something About You')
+    submit = SubmitField('Update Profile')
+    cancel = SubmitField('Cancel')
